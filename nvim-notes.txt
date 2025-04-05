@@ -1,0 +1,356 @@
+f -> jump to char
+t -> jump before char
+
+-------------
+
+To scroll one line at a time use CTRL-E (scroll up) and CTRL-Y (scroll down).
+Think of CTRL-E to give you one line Extra.  (If you use MS-Windows compatible
+key mappings CTRL-Y will redo a change instead of scroll.)
+
+-------------
+
+Notice that the "*" and "#" commands
+use these start-of-word and end-of-word markers to only find whole words (you
+can use "g*" and "g#" to match partial words).
+
+-------------
+H => page high
+M => page middle
+L => page low
+
+-------------
+r => replace one char
+R => replace chars
+
+-------------
+x  stands for  dl  (delete character under the cursor)
+X  stands for  dh  (delete character left of the cursor)
+D  stands for  d$  (delete to end of the line)
+C  stands for  c$  (change to end of the line)
+s  stands for  cl  (change one character)
+S  stands for  cc  (change a whole line)
+
+-------------
+diw => delete INNER word \
+                          => diff: 'a' removes whitespace after text
+daw => delete A     word /     or whitespace before word if it is at
+                               the end of the line.
+-------------
+`+`               or          *+*
+CTRL-M	          or	      *CTRL-M* *<CR>*
+<CR>              [count] lines downward, on the first non-blank
+                  character |linewise|.
+
+-------------
+The ":map" command (with no arguments) lists your current mappings.  At
+least the ones for Normal mode.  More about mappings in section |40.1|.
+
+-------------
+*'runtimepath'* *'rtp'* *vimfiles*
+-------------
+
+VIEWING TABS
+
+When there are tabs in a file, you cannot see where they are.  To make them
+visible:  
+
+	:set list
+
+Now every tab is displayed as ^I.  And a $ is displayed at the end of each
+line, so that you can spot trailing spaces that would otherwise go unnoticed.
+   A disadvantage is that this looks ugly when there are many Tabs in a file.
+If you have a color terminal, or are using the GUI, Vim can show the spaces
+and tabs as highlighted characters.  Use the 'listchars' option:  
+
+	:set listchars=tab:>-,trail:-
+
+Now every tab will be displayed as ">---" (with more or less "-") and trailing
+white space as "-".  Looks a lot better, doesn't it?
+
+-------------
+
+You can set the 'cmdheight' option to the number of lines used for
+messages.  Example:  
+	:set cmdheight=3
+This does mean there is less room to edit text, thus it's a compromise.
+
+-------------
+If you want to edit another file, but not write the changes in the current
+file yet, you can make it hidden:  
+
+	:hide edit foo.txt
+
+-------------
+
+When moving around the files and making changes, you have to remember to use
+":write".  Otherwise you will get an error message.  If you are sure you
+always want to write modified files, you can tell Vim to automatically write
+them:  
+
+	:set autowrite
+
+-------------
+
+PREDEFINED MARKS
+
+After jumping to another file, you can use two predefined marks which are very
+useful:  
+
+	`"
+
+This takes you to the position where the cursor was when you left the file.
+Another mark that is remembered is the position where you made the last
+change:  
+
+	`.
+
+Suppose you are editing the file "one.txt".  Somewhere halfway through the
+file you use "x" to delete a character.  Then you go to the last line with "G"
+and write the file with ":w".  You edit several other files, and then use
+":edit one.txt" to come back to "one.txt".  If you now use `" Vim jumps to the
+last line of the file.  Using `. takes you to the position where you deleted
+the character.  Even when you move around in the file `" and `. will take you
+to the remembered position.  At least until you make another change or leave
+the file.
+-------------
+
+In section |03.10| was explained how you can place a mark in a file with "mx"
+and jump to that position with "`x".  That works within one file.  If you edit
+another file and place marks there, these are specific for that file.  Thus
+each file has its own set of marks, they are local to the file.
+   So far we were using marks with a lowercase letter.  There are also marks
+with an uppercase letter.  These are global, they can be used from any file.
+
+-------------
+
+To see where a specific mark is, give an argument to the ":marks" command:  
+
+	:marks M
+
+You can also give several arguments:  
+
+	:marks MCP
+-------------
+
+APPENDING TO A FILE
+
+When collecting lines of text into one file, you can use this command: >
+
+	:write >> logfile
+
+This will write the text of the current file to the end of "logfile".  Thus it
+is appended.  This avoids that you have to copy the lines, edit the log file
+and put them there.  Thus you save two steps.  But you can only append to the
+end of a file.
+   To append only a few lines, select them in Visual mode before typing
+":write".  In chapter 10 you will learn other ways to select a range of lines.
+-------------
+
+ROOM FOR MESSAGES
+
+When Vim starts there is one line at the bottom that is used for messages.
+When a message is long, it is either truncated, thus you can only see part of
+it, or the text scrolls and you have to press <Enter> to continue.
+   You can set the 'cmdheight' option to the number of lines used for
+messages.  Example:  
+
+	:set cmdheight=3
+
+This does mean there is less room to edit text, thus it's a compromise.
+-------------
+
+08.8*	Various
+
+The 'laststatus' option can be used to specify when the last window has a
+statusline:
+
+	0	never
+	1	only when there are split windows (the default)
+	2	always
+	3	have a global statusline at the bottom instead of one for each
+		window
+
+Many commands that edit another file have a variant that splits the window.
+For Command-line commands this is done by prepending an "s".  For example:
+":tag" jumps to a tag, ":stag" splits the window and jumps to a
+tag.
+
+-------------
+
+	:tab split
+
+This makes a new tab page with one window that is editing the same buffer as
+the window we were in:
+-------------
+
+
+You can put ":tab" before any Ex command that opens a window.  The window will
+be opened in a new tab page.  Another example: >
+
+	:tab help gt
+-------------
+
+*10.1*	Record and playback commands
+
+The "." command repeats the preceding change.  But what if you want to do
+something more complex than a single change?  That's where command recording
+comes in.  There are three steps:
+
+1. The "q{register}" command starts recording keystrokes into the register
+   named {register}.  The register name must be between a and z.
+2. Type your commands.
+3. To finish recording, press q (without any extra character).
+
+You can now execute the macro by typing the command "@{register}".
+
+Just move the cursor to each location and use the "@a" command.
+If you have done that once, you can do it again with "@@".  That's a bit easier to type. 
+-------------
+
+   If you compare the playback method with using ".", there are several
+differences.  First of all, "." can only repeat one change.  As seen in the
+example above, "@a" can do several changes, and move around as well.
+Secondly, "." can only remember the last change.  Executing a register allows
+you to make any changes and then still use "@a" to replay the recorded
+commands.  Finally, you can use 26 different registers.  Thus you can remember
+26 different command sequences to execute.
+
+-------------
+
+APPENDING TO A REGISTER
+
+So far we have used a lowercase letter for the register name.  To append to a
+register, use an uppercase letter.
+   Suppose you have recorded a command to change a word to register c.  It
+works properly, but you would like to add a search for the next word to
+change.  This can be done with:  
+
+	qC/word<Enter>q
+
+You start with "qC", which records to the c register and appends.  Thus
+writing to an uppercase register name means to append to the register with
+the same letter, but lowercase.
+
+This works both with recording and with yank and delete commands.  For
+example, you want to collect a sequence of lines into the a register.  Yank
+the first line with:  
+
+	"ayy
+
+Now move to the second line, and type:  
+
+	"Ayy
+
+Repeat this command for all lines.  The a register now contains all those
+lines, in the order you yanked them.
+-------------
+
+to set a setting (like 'list') to its default value, write:
+:set list&
+
+-------------
+*10.2*	Substitution						*find-replace*
+
+*10.3*	Command ranges
+-------------
+
+
+A NUMBER OF LINES
+
+When you know how many lines you want to change, you can type the number and
+then ":".  For example, when you type "5:", you will get: >
+
+	:.,.+4
+
+Now you can type the command you want to use.  It will use the range "."
+(current line) until ".+4" (four lines down).  Thus it spans five lines.
+-------------
+
+The shift amount is specified with the 'shiftwidth' option.  To change it to
+use 4 spaces: >
+
+	:set shiftwidth=4
+
+-------------
+} 	-> next paragraph
+{ 	-> prev paragraph
+
+-------------
+
+08.9    Tab pages
+
+-------------
+
+command ranges:
+<empty> -> 
+	some commands like substitue : current line
+	some commands like write : whole file
+54 	->   	line 54
+1,5 	->   	line 1 to 5
+. 	->   	current line
+.,$ 	->	current line to end
+%	->	whole file
+1,$	->	whole file (1 to end)
+.+3,$-5	->	3 lines after this line to 5 lines before end
+'t,'b	-> 	mark t to mark b
+'<,'>	->	selction start to selection end
+'>,$	->	selection end to end of file
+
+pattern ranges:
+:?^Chapter?,/^Chapter/s=grey=gray=g
+	from 'Chapter' previous (?? means search before) to
+	to 'Chapter' next (// means seach next),
+	substitue grey with gray
+	note: If the title of the next chapter
+	had included "grey" it would be replaced as well.  Maybe that's what you
+	wanted, but what if you didn't?  Then you can specify an offset.
+	   To search for a pattern and then use the line above it:
+
+		/Chapter/-1
+
+
+-------------
+
+The '< and '> are actually marks, placed at the start and end of the Visual
+selection.  The marks remain at their position until another Visual selection is
+made.  
+
+-------------
+
+note: In the substitue command, The "g" flag at the end causes all words in a line to be replaced.
+
+-------------
+
+If you are programming, you might want to replace "four" in comments, but not
+in the code.  Since this is difficult to specify, add the "c" flag to have the
+substitute command prompt you for each replacement: >
+
+
+	:%s/\<four\>/4/gc
+
+-------------
+
+The "e" flag tells ":substitute" that not finding a match is not an error.
+
+-------------
+
+When the whole file is what you want to count the words in, use this
+command: >
+
+	g CTRL-G
+With Visual mode, select the text you
+want to count words in.  Then type g CTRL-G.  The result:
+
+	Selected 5 of 293 Lines; 70 of 1884 Words; 359 of 10928 Bytes ~
+
+For other ways to count words, lines and other items, see |count-items|.
+
+
+-------------
+
+To remove whitespace at the end of every line, execute the following
+command: 
+
+	:%s/\s\+$//
+
+

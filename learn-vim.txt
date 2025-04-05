@@ -1,0 +1,192 @@
+d : delete
+a : append
+
+i : insert mode
+
+esc : back to normal mode
+
+:w : save
+
+-- how to enter insert mode:
+i : before the cursor
+a : after the cursor
+o : open new line
+
+I : beginning the line
+A : end of the line
+O : open new line above
+
+-----------
+
+
+
+:set number : show line number
+:set relativenumber
+
+
+j : down
+k : up
+h : left
+l : right
+
+12 j : 12 down
+
+:set mouse=a
+:set tabstop=4
+:set shiftwidth=4
+:colorscheme
+
+
+vim ~/.vimrc
+
+set autoindent
+
+u : undo
+cntrl r : redo
+
+
+-- visual mode:
+
+v : enter visual mode
+d : delete
+y : copy (yank)
+p (noraml mode) : paste
+c : delete and enter insert mode
+--
+
+d d : delete line
+y y : copy line
+
+P : pastes above the line
+
+c c : delete line and enter insert
+
+D : delete the rest of the line
+C : delete the rest and enter inseret
+
+Y = y y
+
+r : replace one char
+
+w : jump to next word
+W : next word - just space
+
+b : jumt to back word
+B : just space
+
+d w : delete word
+2 d w = d 2 w : delete 2 word
+d b : delete back word
+
+d i w : delete inner word : delete the word that cursor is on it.
+c i w : change inner word : delete and insert mode
+
+e : end of the word
+0 : beginnig of the line
+$ : end of the line
+
+d 0 : delete to start of line
+d $ : delete to end of line
+d e : delete to end of word
+...
+y i w : yank inner word
+y e
+y 0
+y $
+...
+
+
+c i " : change inner qoutation mark
+c i (
+c i )
+2 c i {
+
+% : jump to open or closing
+
+d % : (cursor on bracket) delete every thing including brackets
+
+t * : jump to next *, before that
+f * : jump to next *, on it
+T * : jumto to before *, before that
+F * : jump to before *, on it
+
+g g : jump to beginnig of file
+G : jump to end
+
+:406 : go to line 406
+
+> > = > (visual mode with selected text)  : indent right
+< < = < (visual mode with selected text) : indent left
+
+-- visual line mode
+V
+
+-- visual block mode
+ctrl + v
+
+
+= = : auto indent
+
+g g = G : auto indent whole file
+
+-- searching
+/hello [enter]
+n : jump to next
+N : jump to previous
+?hello [enter] : search backward
+
+# (on a word): search for that word backward
+* (on a word): search for that word
+
+-- marking
+m a : mark position with name 'a'
+' a : go to position marked 'a'
+
+
+z z : center a line in the middle of screen
+
+
+-- replace
+:%s/Word1/Word2/g [enter]
+% -> full file
+s -> substitute
+
+- in selection (visual mode)
+:s/Word1/Word2/g
+
+. : repeat last command
+
+
+--- registers
+when we delete or yank sth, it will be sotred in registers.
+we can see them with command:
+:reg
+
+deleting means cutting
+
+" 7 p : paste reg 7
+7 y y : yank the line to 7
+
+reg "+ : clipboard of system
+
+" 0 p : paste last thing that was yanked
+
+
+--- macors
+sequece of vim bindign
+
+q a : record the macro 'a'
+q : quit macro (after the previous command)
+
+you can see macros in :reg command,
+for example macro a is "a in list.
+
+@ a : execute macro a
+
+you can define macro b, and you can define
+macro c that runs a & b macros.
+
+
+----- mine
+ctrl o : go back before search
+ctrl i : go forward

@@ -1,0 +1,18 @@
+required tools:
+- file tree -- DONE
+- code complete (language server)
+    - mason -> lspconfig -> mason-lspconfig DONE
+    - tab complete DONE with mini.completion
+    - auto pairs DONE with mini.pairs
+    - comment DONE with numToStr/Comment.nvim
+    - treesitter
+    - go to file
+- debugger
+- session manager
+- separate config
+
+
+
+optional:
+- snippets
+- find in files
