@@ -1,39 +1,23 @@
 return {
   "neovim/nvim-lspconfig",
-
   lazy=false,
+  config = function()
+	require("mason").setup()
+	require("mason-lspconfig").setup()
 
-  config = function() 
-    local lspconfig = require("lspconfig")
+	-- lspconfig.lua_ls.setup {}
+	local lspconfig = require("lspconfig")
 
-    lspconfig.ts_ls.setup{
-      init_options = {
-        plugins = {
-          {
-            name = "@vue/typescript-plugin",
-            location = "/usr/local/lib/node_modules/@vue/typescript-plugin",
-            languages = {"javascript", "typescript", "vue"},
-          },
-        },
-      },
-      filetypes = {
-        "javascript",
-        "typescript",
-        "vue",
-        "typescriptreact",
-        "javascriptreact",
-      },
-    }
-
+	-- Automatically set up all installed servers
+	require("mason-lspconfig").setup_handlers {
+	    function(server_name)
+		lspconfig[server_name].setup {}
+	    end
+	}
   end,
 
   dependencies = {
-    "mason.nvim",
-    { "williamboman/mason-lspconfig.nvim", config = function() end },
-    { 
-	'echasnovski/mini.completion',
-	version = false,
-	config = true,
-    },
+    { "mason.nvim" },
+    { "williamboman/mason-lspconfig.nvim" },
   }
 }
