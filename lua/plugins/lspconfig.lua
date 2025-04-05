@@ -1,6 +1,8 @@
 return {
   "neovim/nvim-lspconfig",
+
   lazy=false,
+
   config = function() 
     local lspconfig = require("lspconfig")
 
@@ -21,10 +23,17 @@ return {
         "typescriptreact",
         "javascriptreact",
       },
-	  }
+    }
+
   end,
+
   dependencies = {
     "mason.nvim",
     { "williamboman/mason-lspconfig.nvim", config = function() end },
+    { 
+	'echasnovski/mini.completion',
+	version = false,
+	config = true,
+    },
   }
 }
