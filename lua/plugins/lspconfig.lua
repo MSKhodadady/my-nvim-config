@@ -41,7 +41,7 @@ return {
   end,
 
   dependencies = {
-    { "mason.nvim" },
+    { "williamboman/mason.nvim" },
     { "williamboman/mason-lspconfig.nvim" },
   }
 }
