@@ -5,8 +5,8 @@ required tools:
     - tab complete DONE with mini.completion
     - auto pairs DONE with mini.pairs
     - comment DONE with numToStr/Comment.nvim
-    - treesitter
-    - go to file
+    - treesitter DONE
+    - go to file DONE with fzf-lua
 - tab line
 - debugger
 - session manager
