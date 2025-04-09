@@ -7,13 +7,18 @@ required tools:
     - comment DONE with numToStr/Comment.nvim
     - treesitter DONE
     - go to file DONE with fzf-lua
-- tab line
-- debugger
+
+- tab line DONE with romgrk/barbar.nvim
 - session manager
+- debugger
 - separate config
 
+key bindings for:
+- fzf
+- barbar.nvim
+- ":qa"
 
-
-optional:
-- snippets
-- find in files
+works to do:
+- how to run lsp code actions?
+- save session for barbar
+- tabline not above file tree
